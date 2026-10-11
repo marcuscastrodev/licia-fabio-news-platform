@@ -1,0 +1,16 @@
+# Local and environment files
+.env
+.env.*
+!.env.example
+.DS_Store
+__MACOSX/
+*.log
+node_modules/
+vendor/
+.idea/
+.vscode/
+wp-config.php
+wp-content/uploads/
+*.sql
+*.sqlite
+*.bak
