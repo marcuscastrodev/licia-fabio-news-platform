@@ -8,6 +8,15 @@ Developed as a modular publishing platform, this project brings together a reade
 
 > **Release note:** The source versions in this repository are labeled `staging` by their original authors. They are official project versions, but this repository does not claim that the exact commits have passed a full production deployment or security audit.
 
+## Interface previews
+
+The project includes two complementary experiences:
+
+- **Public news portal:** branded homepage, navigation, featured stories, editorial sections and advertising placements.
+- **Editorial dashboard:** article search, status filtering, publishing information and content management actions.
+
+Screenshots provided by the developer will be added under `docs/screenshots/`.
+
 ## What I built
 
 ### 1. Reader-facing news portal
