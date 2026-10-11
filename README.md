@@ -4,7 +4,7 @@
 
 Developed as a modular publishing platform, this project brings together a reader-facing news portal, a dedicated newsroom interface, and a reusable content layer. Rather than placing business logic in the theme, the architecture keeps editorial data and workflows in WordPress plugins.
 
-**Live website:** [liciafabio.com.br](https://liciafabio.com.br/) · **Developer:** [Marcos Castro](https://github.com/marcuscastrodev)
+**Live website:** [liciafabio.com.br](https://liciafabio.com.br/) · **Developer:** [Marcus Castro](https://github.com/marcuscastrodev)
 
 > **Release note:** The source versions in this repository are labeled `staging` by their original authors. They are official project versions, but this repository does not claim that the exact commits have passed a full production deployment or security audit.
 
@@ -135,4 +135,4 @@ Use an **isolated WordPress development or staging environment**. The theme and 
 
 ---
 
-**Built by [Marcos Castro](https://github.com/marcuscastrodev)** · Web Development & Digital Experiences · Valencia, Spain
+**Built by [Marcus Castro](https://github.com/marcuscastrodev)** · Web Development & Digital Experiences · Valencia, Spain
