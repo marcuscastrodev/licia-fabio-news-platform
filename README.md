@@ -1,60 +1,129 @@
-# Lícia Fábio — News Portal & Editorial Management System
+# Lícia Fábio | News Portal & Editorial Platform
 
-A custom WordPress news platform consisting of a public-facing theme, an editorial management plugin, and a core content-management plugin.
+**A custom WordPress news experience and an integrated editorial workspace.**
 
-**Status:** Official project source versions supplied by the developer. The plugins retain their `staging` version identifiers; production readiness and end-to-end installation have not yet been independently verified.
+Developed as a modular publishing platform, this project brings together a reader-facing news portal, a dedicated newsroom interface, and a reusable content layer. Rather than placing business logic in the theme, the architecture keeps editorial data and workflows in WordPress plugins.
 
-## Architecture
+**Live website:** [liciafabio.com.br](https://liciafabio.com.br/) · **Developer:** [Marcos Castro](https://github.com/marcuscastrodev)
 
-| Component | Purpose | Source |
-| --- | --- | --- |
-| WordPress theme | Public news portal, article pages, categories, search and responsive layout | `wordpress-theme/` |
-| Editorial management plugin | Editorial administration UI, publishing workflows and REST integrations | `editorial-plugin/` |
-| Core plugin | Content models, custom fields, events, advertising, featured content and REST endpoints | `core-plugin/` |
+> **Release note:** The source versions in this repository are labeled `staging` by their original authors. They are official project versions, but this repository does not claim that the exact commits have passed a full production deployment or security audit.
 
-All three components are designed to work within WordPress; the theme and editorial plugin rely on the data and functionality provided by the Core plugin.
+## What I built
 
-## Technologies
+### 1. Reader-facing news portal
+A custom WordPress theme focused on publishing and browsing editorial content.
 
-PHP · WordPress · HTML · CSS · JavaScript · WordPress REST API
+- Homepage with featured stories and reusable news cards
+- Article, category, archive, search, event and error-page templates
+- Responsive navigation, image galleries and a dedicated TV Lícia page
+- Advertising placements, event listings and related-content components
+- Presentation separated from persistent editorial data
 
-## Highlights
+**Explore the code:** [WordPress theme](./wordpress-theme/)
 
-- Modular separation of presentation, editorial workflows and content logic
-- Custom WordPress templates and reusable components
-- Editorial administration and API integration
-- Content structures for events, advertising and featured stories
-- Responsive news-site experience
+### 2. Custom editorial workspace
+A separate newsroom interface available at `/redacao/` within the same WordPress installation, designed to let editors work without navigating the standard WordPress admin screens.
 
-## Repository layout
+- Responsive sidebar and mobile drawer with keyboard and focus handling
+- Create and edit news, events and advertising content
+- Native WordPress authentication and capability-based permissions
+- WordPress REST API integration and media management
+- Revision checks, per-item locking and conflict responses for concurrent edits
+- Draft-recovery behavior for interrupted editing sessions
+
+**Important limitation:** Concurrent writes are protected between editorial-panel sessions. External edits through wp-admin or other integrations can still overwrite panel changes; the plugin documentation explains this distinction.
+
+**Explore the code:** [Editorial plugin](./editorial-plugin/)
+
+### 3. Reusable editorial core
+A dedicated plugin registers and manages the data used by the theme and editorial workspace.
+
+- Custom post types for events (`lf_evento`) and advertisements (`lf_anuncio`)
+- Post metadata for subtitles, homepage features and image credits
+- Helpers for featured articles, popular stories, upcoming events and ad slots
+- WordPress REST API fields with schema and permission handling
+- Compatibility-minded separation of content from visual presentation
+
+**Explore the code:** [Core plugin](./core-plugin/)
+
+## System architecture
 
 ```text
-wordpress-theme/
-editorial-plugin/
-core-plugin/
-docs/
-README.md
-.gitignore
+                     WordPress
+                         |
+             +-----------+-----------+
+             |                       |
+     Public-facing site       Editorial workspace
+      Custom WP theme          Custom WP plugin
+             |                       |
+             +-----------+-----------+
+                         |
+                  Editorial Core
+                  WordPress plugin
+                         |
+            Posts, metadata, events,
+             advertisements and media
 ```
 
-## Version notes
+The editorial workspace uses WordPress sessions, roles and capabilities. The Core plugin defines shared content structures, while the theme is responsible for rendering the public experience.
 
-- Editorial plugin: `1.0.5-staging`
-- Core plugin: `1.0.3-staging` (README corrected to match the main PHP plugin header)
-- Theme: supplied official source version
+## Tech stack
 
-## Local development
+**Backend:** PHP, WordPress, WordPress REST API  
+**Frontend:** HTML, CSS, JavaScript, responsive layouts  
+**Content:** Custom post types, post metadata, media, template parts  
+**Integration:** Native WordPress authentication and permissions
 
-A working WordPress installation is required. Install and activate the Core plugin, the editorial plugin and the theme in an isolated development environment. Confirm compatible WordPress/PHP versions and configuration before use.
+## Repository structure
 
-> Do not deploy directly to a production site without reviewing dependencies, database changes, permissions and security. No database export, user data or live credentials should be committed.
+```text
+.
+├── wordpress-theme/       # Public site templates, styles and scripts
+├── editorial-plugin/      # Newsroom interface and editorial workflows
+├── core-plugin/           # Shared content models and API integration
+├── .gitignore
+└── README.md
+```
 
-## Portfolio context
+## Official source versions
 
-Built for the **Lícia Fábio** editorial/news website. This project demonstrates the design and development of both the reader-facing experience and the tools supporting the publishing workflow.
+| Component | Version |
+| --- | --- |
+| WordPress theme | `1.0.5-staging` |
+| Editorial plugin | `1.0.5-staging` |
+| Core plugin | `1.0.3-staging` |
 
-**Developer:** [Marcos Castro](https://github.com/marcuscastrodev)
+These are the official source versions provided for this portfolio repository. Version identifiers are preserved rather than relabeled as production releases.
 
-## Current repository status
+## Running locally
 
-The documentation is initialized. Source code will be added after packaging and final review.
+Use an **isolated WordPress development or staging environment**. The theme and plugins require WordPress **5.9+** and PHP **7.4+** according to the Core and theme headers; confirm compatibility with your own installation and plugin dependencies.
+
+1. Copy `core-plugin/` to `wp-content/plugins/licia-fabio-core/`.
+2. Copy `editorial-plugin/` to `wp-content/plugins/licia-fabio-editorial/`.
+3. Copy `wordpress-theme/` to `wp-content/themes/licia-fabio/`.
+4. Activate **Lícia Fábio Core** first, then the editorial plugin, and finally the theme.
+5. Review the Core settings under **Portal**, configure editorial sections, and refresh permalinks if necessary.
+6. Validate permissions, REST endpoints, templates, event and ad content, and publishing workflows before considering any deployment.
+
+**Do not install these staging versions on a production site without completing testing and a security review.** This repository does not include a WordPress database, media library, credentials or a preconfigured environment.
+
+## Engineering decisions
+
+**Separation of concerns.** Editorial fields, event and ad records, and reusable data helpers live in a plugin instead of the theme. Theme replacement does not inherently delete those stored records.
+
+**Native security model.** The editorial workspace relies on WordPress login sessions and capability checks rather than introducing a separate password system.
+
+**Explicit conflict behavior.** Editorial-panel edits track revisions and can reject conflicting saves instead of silently overwriting another panel session. The protections do not cover every external WordPress editing path.
+
+**Compatibility first.** The Core documentation describes safeguards intended to preserve legacy metadata and avoid destructive changes during migration.
+
+## Further reading
+
+- [Core architecture and configuration](./core-plugin/README.md)
+- [Editorial interface, API and concurrency behavior](./editorial-plugin/README.md)
+- [Theme implementation](./wordpress-theme/)
+
+---
+
+**Built by [Marcos Castro](https://github.com/marcuscastrodev)** · Web Development & Digital Experiences · Valencia, Spain
