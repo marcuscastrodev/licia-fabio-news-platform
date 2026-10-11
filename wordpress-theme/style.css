@@ -1,0 +1,18 @@
+/*
+Theme Name: Portal Lícia Fábio
+Theme URI: https://liciafabio.com.br/
+Author: Lícia Fábio Produções
+Author URI: https://liciafabio.com.br/
+Description: VERSÃO PARA VALIDAÇÃO EM STAGING — não ativar em produção. Tema do portal de notícias Lícia Fábio. Cuida apenas da apresentação: layout, templates e consultas. A estrutura editorial (subtítulo, destaques, crédito de foto, anúncios e agenda) fica no plugin Lícia Fábio Core, que deve ser ativado antes deste tema. Este tema não desativa, renomeia nem exclui nenhum outro tema ou plugin, e não carrega nenhum recurso de terceiro.
+Version: 1.0.5-staging
+Requires at least: 5.9
+Tested up to: 6.6
+Requires PHP: 7.4
+License: GPL-2.0-or-later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: licia-fabio
+Tags: news, magazine, blog, custom-menu, featured-images, translation-ready
+*/
+
+/* O CSS do tema está em assets/css/main.css, enfileirado em functions.php.
+   Este arquivo existe porque o WordPress exige style.css para reconhecer o tema. */

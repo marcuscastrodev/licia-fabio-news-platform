@@ -1,0 +1,437 @@
+/* ==========================================================================
+   Painel Editorial — Lícia Fábio · 1.0.5-staging
+   Visual do protótipo aprovado. Nada do tema do portal é carregado aqui.
+
+   Tipografia do sistema por padrão: o painel não faz requisição externa.
+   Archivo e Newsreader entram se estiverem instalados na máquina; do
+   contrário, a pilha do sistema mantém o desenho legível e sem salto.
+   ========================================================================== */
+
+:root{
+  --lfed-fundo:#EFEDE9;
+  --lfed-papel:#fff;
+  --lfed-tinta:#14265C;
+  --lfed-vermelho:#D81818;
+  --lfed-vermelho-escuro:#B31414;
+  --lfed-apagado:#8A8FA0;
+  --lfed-texto:#5A6079;
+  --lfed-linha:#E4E2DC;
+  --lfed-campo:#DAD6D0;
+  --lfed-aviso-fundo:#FDF0D9;
+  --lfed-aviso-borda:#EBD9A8;
+  --lfed-aviso-tinta:#7A5A12;
+  --lfed-erro-fundo:#FDECEC;
+  --lfed-erro-borda:#F5C6C6;
+  --lfed-erro-tinta:#8E1414;
+  --lfed-ok-fundo:#E8F5EC;
+  --lfed-ok-borda:#B8DFC6;
+  --lfed-ok-tinta:#1E7B34;
+  --lfed-sans:'Archivo',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --lfed-leitura:'Newsreader',Georgia,'Times New Roman',serif;
+  --lfed-raio:9px;
+}
+
+*{box-sizing:border-box}
+
+body.lfed{
+  margin:0;
+  background:var(--lfed-fundo);
+  color:var(--lfed-tinta);
+  font-family:var(--lfed-sans);
+  -webkit-font-smoothing:antialiased;
+  font-size:15px;
+  line-height:1.5;
+}
+
+body.lfed a{color:var(--lfed-vermelho);text-decoration:none}
+body.lfed a:hover{color:var(--lfed-tinta)}
+::selection{background:var(--lfed-vermelho);color:#fff}
+
+input,textarea,button,select{font-family:var(--lfed-sans);font-size:15px}
+input:focus-visible,textarea:focus-visible,select:focus-visible,
+button:focus-visible,[contenteditable]:focus-visible,a:focus-visible{
+  outline:2px solid var(--lfed-vermelho);
+  outline-offset:1px;
+}
+
+.lfed-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.lfed-boot{padding:60px 24px;text-align:center;color:var(--lfed-apagado)}
+
+/* ---------- botões ---------- */
+.lfed-btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+  background:var(--lfed-papel);color:var(--lfed-tinta);
+  border:1.5px solid var(--lfed-campo);border-radius:var(--lfed-raio);
+  padding:0 20px;min-height:44px;cursor:pointer;
+  text-align:center;
+}
+.lfed-btn:hover{border-color:var(--lfed-tinta);color:var(--lfed-tinta)}
+.lfed-btn--principal{background:var(--lfed-vermelho);color:#fff;border-color:var(--lfed-vermelho)}
+.lfed-btn--principal:hover{background:var(--lfed-vermelho-escuro);border-color:var(--lfed-vermelho-escuro);color:#fff}
+.lfed-btn[disabled]{opacity:.5;cursor:not-allowed}
+.lfed-btn--pequeno{min-height:36px;padding:0 14px;font-size:11.5px}
+
+/* ==========================================================================
+   CASCA: barra lateral fixa + área de trabalho
+
+   Grade de duas colunas no desktop. A lateral é `sticky` com altura de
+   viewport, então acompanha a janela e continua acessível por mais longa que
+   seja a rolagem do conteúdo — sem `position:fixed`, que a tiraria do fluxo e
+   exigiria compensar a largura à mão.
+
+   Abaixo de 900px a mesma lateral vira drawer: sai da tela por `transform`,
+   volta sobre um véu, e a barra estreita com o botão de menu aparece.
+   ========================================================================== */
+
+.lfed-shell{display:grid;grid-template-columns:248px minmax(0,1fr);min-height:100vh}
+
+.lfed-lateral{
+  grid-column:1;
+  position:sticky;top:0;align-self:start;
+  height:100vh;
+  background:var(--lfed-papel);
+  border-right:1px solid var(--lfed-linha);
+  display:flex;flex-direction:column;
+  /* z-index baixo: fica acima do fundo, e abaixo de modais (200) e do véu. */
+  z-index:20;
+}
+
+.lfed-lateral__topo{
+  padding:20px 18px 16px;border-bottom:1px solid var(--lfed-linha);
+  display:flex;align-items:flex-start;justify-content:space-between;gap:10px;
+}
+.lfed-marca{display:flex;flex-direction:column;gap:10px;min-width:0}
+.lfed-marca img{height:30px;width:auto;display:block}
+.lfed-marca__nome{
+  font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--lfed-apagado);padding-left:.2em;
+}
+/* O botão de fechar só existe no drawer. */
+.lfed-lateral__fechar{
+  display:none;
+  background:none;border:0;font-size:26px;line-height:1;
+  color:var(--lfed-texto);cursor:pointer;
+  width:44px;height:44px;flex-shrink:0;
+}
+.lfed-lateral__fechar:hover{color:var(--lfed-vermelho)}
+
+.lfed-lateral__acao{padding:16px 18px}
+.lfed-lateral__acao .lfed-btn{width:100%}
+
+/* ---------- navegação lateral ---------- */
+.lfed-nav{flex:1;padding:6px 10px;display:flex;flex-direction:column;gap:2px;overflow-y:auto}
+.lfed-nav__item{
+  display:flex;align-items:center;gap:11px;
+  width:100%;min-height:44px;padding:0 12px;
+  font-size:14px;font-weight:600;text-align:left;
+  color:var(--lfed-texto);background:none;border:0;border-radius:7px;
+  cursor:pointer;
+}
+.lfed-nav__item:hover{background:#F4F2EE;color:var(--lfed-tinta)}
+/* Item ativo: fundo, tinta escura e uma marca vermelha à esquerda. Três
+   sinais, não só cor — quem não distingue matiz também percebe. */
+.lfed-nav__item[aria-current="page"]{background:#F4F2EE;color:var(--lfed-tinta);font-weight:800}
+.lfed-nav__marca{width:3px;height:18px;border-radius:2px;background:transparent;flex-shrink:0}
+.lfed-nav__item[aria-current="page"] .lfed-nav__marca{background:var(--lfed-vermelho)}
+.lfed-nav__item[disabled]{opacity:.42;cursor:not-allowed}
+.lfed-nav__item[disabled]:hover{background:none;color:var(--lfed-texto)}
+
+.lfed-lateral__pe{
+  padding:14px 18px 18px;border-top:1px solid var(--lfed-linha);
+  display:flex;flex-direction:column;gap:12px;
+}
+.lfed-conta{display:flex;align-items:center;gap:10px;min-width:0}
+.lfed-conta__inicial{
+  width:36px;height:36px;border-radius:50%;background:#E8E6E1;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:800;color:var(--lfed-tinta);
+}
+.lfed-conta__id{min-width:0}
+.lfed-conta__nome{font-size:13px;font-weight:700;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lfed-conta__papel{font-size:11.5px;color:var(--lfed-apagado);line-height:1.2}
+.lfed-lateral__sair{width:100%}
+
+/* ---------- área de trabalho ---------- */
+.lfed-area{grid-column:2;min-width:0;display:flex;flex-direction:column}
+
+/* ---------- barra estreita (só abaixo de 900px) ---------- */
+.lfed-barra-mob{
+  display:none;
+  position:sticky;top:0;z-index:15;
+  background:var(--lfed-papel);border-bottom:1px solid var(--lfed-linha);
+  padding:10px 14px;align-items:center;gap:12px;
+}
+.lfed-barra-mob__nome{
+  flex:1;min-width:0;font-size:13px;font-weight:800;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--lfed-tinta);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.lfed-menu-btn{
+  display:flex;align-items:center;gap:9px;
+  min-height:44px;padding:0 13px;
+  font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--lfed-tinta);background:var(--lfed-papel);
+  border:1.5px solid var(--lfed-campo);border-radius:var(--lfed-raio);
+  cursor:pointer;flex-shrink:0;
+}
+.lfed-menu-btn:hover{border-color:var(--lfed-tinta)}
+.lfed-menu-btn__barras{position:relative;width:16px;height:2px;background:currentColor;display:block}
+.lfed-menu-btn__barras::before,
+.lfed-menu-btn__barras::after{
+  content:'';position:absolute;left:0;width:16px;height:2px;background:currentColor;
+}
+.lfed-menu-btn__barras::before{top:-5px}
+.lfed-menu-btn__barras::after{top:5px}
+
+/* ---------- véu do drawer ---------- */
+.lfed-veu{
+  display:none;
+  position:fixed;inset:0;z-index:40;
+  background:rgba(20,38,92,.45);
+}
+
+/* ---------- estrutura ---------- */
+.lfed-corpo{flex:1;max-width:1100px;width:100%;margin:0 auto;padding:30px 28px 70px}
+.lfed-titulo-tela{font-size:24px;font-weight:700;margin:0 0 4px}
+.lfed-sub-tela{font-family:var(--lfed-leitura);font-size:17px;color:var(--lfed-texto);margin:0 0 24px}
+
+.lfed-cartao{background:var(--lfed-papel);border:1px solid var(--lfed-linha);border-radius:12px;padding:22px}
+.lfed-grade-atalhos{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:28px}
+.lfed-atalho{
+  background:var(--lfed-papel);border:1px solid var(--lfed-linha);border-radius:12px;
+  padding:20px;text-align:left;cursor:pointer;min-height:44px;
+}
+.lfed-atalho:hover{border-color:var(--lfed-tinta)}
+.lfed-atalho__n{font-size:30px;font-weight:800;line-height:1;color:var(--lfed-tinta)}
+.lfed-atalho__r{font-size:11.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--lfed-apagado);margin-top:8px}
+
+/* ---------- filtros e lista ---------- */
+.lfed-filtros{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-bottom:18px}
+.lfed-filtros__busca{flex:1;min-width:200px}
+
+.lfed-campo{display:block;margin-bottom:18px}
+.lfed-campo__rotulo{display:block;font-size:13px;font-weight:700;margin-bottom:8px}
+.lfed-campo__dica{font-size:12.5px;color:var(--lfed-apagado);margin:6px 0 0}
+.lfed-campo input[type="text"],
+.lfed-campo input[type="url"],
+.lfed-campo input[type="search"],
+.lfed-campo textarea,
+.lfed-campo select{
+  width:100%;font-size:16px;padding:13px 14px;
+  border:1.5px solid var(--lfed-campo);border-radius:var(--lfed-raio);
+  background:var(--lfed-papel);color:var(--lfed-tinta);
+}
+.lfed-campo textarea{resize:vertical;min-height:72px;line-height:1.5}
+
+.lfed-tabela{background:var(--lfed-papel);border:1px solid var(--lfed-linha);border-radius:12px;overflow:hidden}
+.lfed-linha-item{
+  display:grid;grid-template-columns:minmax(0,1fr) 130px 120px 150px 100px;
+  gap:14px;align-items:center;padding:15px 18px;border-bottom:1px solid var(--lfed-linha);
+}
+.lfed-linha-item:last-child{border-bottom:0}
+.lfed-linha-item--cabecalho{
+  font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--lfed-apagado);background:#FBFAF8;
+}
+.lfed-item__titulo{font-size:15.5px;font-weight:700;line-height:1.3;margin:0}
+.lfed-item__meta{font-size:12.5px;color:var(--lfed-apagado);margin-top:3px}
+
+.lfed-etiqueta{
+  display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.1em;
+  text-transform:uppercase;padding:5px 9px;border-radius:4px;white-space:nowrap;
+}
+.lfed-etiqueta--publish{background:var(--lfed-ok-fundo);color:var(--lfed-ok-tinta)}
+.lfed-etiqueta--draft{background:#EFEDE9;color:var(--lfed-texto)}
+.lfed-etiqueta--pending{background:var(--lfed-aviso-fundo);color:var(--lfed-aviso-tinta)}
+.lfed-etiqueta--future{background:#E9EEF9;color:#2B4B9B}
+
+.lfed-paginacao{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:22px;flex-wrap:wrap}
+.lfed-paginacao__pos{font-size:12.5px;color:var(--lfed-apagado)}
+
+/* ---------- editor ---------- */
+.lfed-editor{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:26px;align-items:start}
+.lfed-editor__lateral{display:flex;flex-direction:column;gap:16px;position:sticky;top:24px}
+
+.lfed-titulo-campo{
+  width:100%;font-family:var(--lfed-sans);font-size:26px;font-weight:700;line-height:1.2;
+  padding:14px;border:1.5px solid var(--lfed-campo);border-radius:var(--lfed-raio);
+  background:var(--lfed-papel);color:var(--lfed-tinta);
+}
+
+.lfed-ferramentas{
+  display:flex;gap:4px;flex-wrap:wrap;padding:8px;background:#FBFAF8;
+  border:1.5px solid var(--lfed-campo);border-bottom:0;
+  border-radius:var(--lfed-raio) var(--lfed-raio) 0 0;
+}
+.lfed-ferramentas button{
+  font-size:12px;font-weight:700;color:var(--lfed-tinta);background:var(--lfed-papel);
+  border:1px solid var(--lfed-linha);border-radius:5px;padding:0 11px;
+  min-height:36px;min-width:36px;cursor:pointer;
+}
+.lfed-ferramentas button:hover{border-color:var(--lfed-tinta)}
+.lfed-ferramentas button[aria-pressed="true"]{background:var(--lfed-tinta);color:#fff;border-color:var(--lfed-tinta)}
+.lfed-ferramentas__risco{width:1px;background:var(--lfed-linha);margin:4px 5px}
+
+.lfed-conteudo{
+  min-height:380px;padding:20px;background:var(--lfed-papel);
+  border:1.5px solid var(--lfed-campo);border-radius:0 0 var(--lfed-raio) var(--lfed-raio);
+  font-family:var(--lfed-leitura);font-size:18px;line-height:1.62;color:#2A2E3C;
+  overflow-wrap:break-word;
+}
+.lfed-conteudo:focus{outline:2px solid var(--lfed-vermelho);outline-offset:-1px}
+.lfed-conteudo p{margin:0 0 1em}
+.lfed-conteudo h2{font-family:var(--lfed-sans);font-size:24px;font-weight:700;margin:1.5em 0 .5em}
+.lfed-conteudo h3{font-family:var(--lfed-sans);font-size:19px;font-weight:700;margin:1.4em 0 .5em}
+.lfed-conteudo img{max-width:100%;height:auto;border-radius:6px;display:block;margin:1em 0}
+.lfed-conteudo figure{margin:1.4em 0}
+.lfed-conteudo figcaption{font-family:var(--lfed-sans);font-size:12.5px;color:var(--lfed-apagado);margin-top:8px}
+.lfed-conteudo blockquote{
+  margin:1.4em 0;padding-left:22px;border-left:4px solid var(--lfed-vermelho);
+  font-style:italic;color:var(--lfed-texto);
+}
+.lfed-conteudo table{width:100%;border-collapse:collapse;font-family:var(--lfed-sans);font-size:14px}
+.lfed-conteudo th,.lfed-conteudo td{border:1px solid var(--lfed-linha);padding:8px 10px;text-align:left}
+.lfed-conteudo iframe,.lfed-conteudo video,.lfed-conteudo embed{max-width:100%}
+
+.lfed-codigo{
+  width:100%;min-height:380px;padding:18px;border:1.5px solid var(--lfed-campo);
+  border-radius:0 0 var(--lfed-raio) var(--lfed-raio);background:#FBFAF8;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:13.5px;line-height:1.6;color:var(--lfed-tinta);resize:vertical;
+}
+
+/* ---------- imagem destacada ---------- */
+.lfed-destacada__previa{
+  width:100%;aspect-ratio:16/10;border-radius:8px;background:#E8E6E1;
+  overflow:hidden;margin-bottom:12px;
+}
+.lfed-destacada__previa img{width:100%;height:100%;object-fit:cover;display:block}
+.lfed-destacada__vazio{
+  display:flex;align-items:center;justify-content:center;height:100%;
+  font-size:12.5px;color:var(--lfed-apagado);text-align:center;padding:16px;
+}
+
+/* ---------- avisos ---------- */
+.lfed-aviso{
+  display:flex;gap:11px;align-items:flex-start;border-radius:var(--lfed-raio);
+  padding:13px 15px;font-size:13.5px;line-height:1.5;margin-bottom:16px;
+}
+.lfed-aviso--info{background:var(--lfed-aviso-fundo);border:1px solid var(--lfed-aviso-borda);color:var(--lfed-aviso-tinta)}
+.lfed-aviso--erro{background:var(--lfed-erro-fundo);border:1px solid var(--lfed-erro-borda);color:var(--lfed-erro-tinta)}
+.lfed-aviso--ok{background:var(--lfed-ok-fundo);border:1px solid var(--lfed-ok-borda);color:var(--lfed-ok-tinta)}
+.lfed-aviso__marca{
+  font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  padding:4px 8px;border-radius:4px;flex-shrink:0;
+  background:rgba(0,0,0,.06);
+}
+.lfed-aviso a{color:inherit;text-decoration:underline}
+
+.lfed-vazio{padding:50px 24px;text-align:center;color:var(--lfed-texto)}
+.lfed-vazio__t{font-size:19px;font-weight:700;color:var(--lfed-tinta);margin:0 0 8px}
+
+/* ---------- barra de salvamento ---------- */
+.lfed-barra-salvar{
+  position:sticky;bottom:0;background:var(--lfed-papel);
+  border-top:1px solid var(--lfed-linha);padding:14px 28px;
+  display:flex;gap:12px;align-items:center;justify-content:flex-end;
+  flex-wrap:wrap;margin:26px -28px -70px;
+  /* Abaixo do véu (40) e dos modais (200): o drawer aberto cobre a barra, e
+     não o contrário. */
+  z-index:14;
+}
+.lfed-barra-salvar__estado{margin-right:auto;font-size:12.5px;color:var(--lfed-apagado)}
+
+/* ---------- tela de acesso negado ---------- */
+.lfed-aviso-tela{max-width:520px;margin:0 auto;padding:80px 24px;text-align:center}
+.lfed-aviso-tela__logo{height:52px;width:auto;margin:0 auto 28px;display:block}
+.lfed-aviso-tela h1{font-size:25px;font-weight:700;margin:0 0 12px}
+.lfed-aviso-tela p{font-family:var(--lfed-leitura);font-size:17px;line-height:1.55;color:var(--lfed-texto);margin:0 0 28px}
+.lfed-aviso-tela__acoes{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+/* ---------- biblioteca ---------- */
+.lfed-galeria{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
+.lfed-galeria__item{
+  border:1.5px solid var(--lfed-linha);border-radius:8px;overflow:hidden;
+  background:var(--lfed-papel);cursor:pointer;padding:0;
+}
+.lfed-galeria__item:hover,.lfed-galeria__item[aria-pressed="true"]{border-color:var(--lfed-vermelho)}
+.lfed-galeria__item img{width:100%;aspect-ratio:1;object-fit:cover;display:block}
+
+.lfed-modal{
+  position:fixed;inset:0;background:rgba(20,38,92,.55);z-index:200;
+  display:flex;align-items:center;justify-content:center;padding:20px;
+}
+.lfed-modal__caixa{
+  background:var(--lfed-papel);border-radius:14px;padding:24px;
+  width:100%;max-width:720px;max-height:88vh;overflow-y:auto;
+}
+.lfed-modal__titulo{font-size:19px;font-weight:700;margin:0 0 18px}
+
+/* ==========================================================================
+   Responsivo
+   ========================================================================== */
+
+/* Até 900px a lateral vira drawer. O limiar é o mesmo em que o editor deixa
+   de caber em duas colunas — abaixo dele, 248px de lateral fixa comeriam a
+   largura de escrita. */
+@media (max-width:900px){
+
+  .lfed-shell{grid-template-columns:minmax(0,1fr)}
+
+  .lfed-lateral{
+    grid-column:1;grid-row:1;
+    position:fixed;top:0;left:0;bottom:0;
+    width:min(300px,86vw);
+    height:100%;
+    z-index:60;
+    transform:translateX(-100%);
+    transition:transform .22s ease;
+    box-shadow:none;
+    /* Fechada, sai do alcance do teclado: sem isto, a tabulação entraria numa
+       navegação invisível. */
+    visibility:hidden;
+  }
+
+  .lfed-shell[data-menu="aberto"] .lfed-lateral{
+    transform:translateX(0);
+    visibility:visible;
+    box-shadow:0 0 40px rgba(20,38,92,.18);
+  }
+
+  .lfed-lateral__fechar{display:flex;align-items:center;justify-content:center}
+
+  .lfed-veu{display:block}
+
+  .lfed-area{grid-column:1;grid-row:1}
+  .lfed-barra-mob{display:flex}
+
+  .lfed-corpo{padding:22px 18px 70px}
+  .lfed-barra-salvar{padding:13px 18px;margin:22px -18px -70px}
+
+  .lfed-editor{grid-template-columns:minmax(0,1fr)}
+  .lfed-editor__lateral{position:static;top:auto}
+
+  .lfed-linha-item{grid-template-columns:minmax(0,1fr) 120px;gap:10px}
+  .lfed-linha-item--cabecalho{display:none}
+  .lfed-linha-item__oculto-mob{display:none}
+}
+
+/* Movimento reduzido: o drawer aparece e desaparece sem deslizar. */
+@media (prefers-reduced-motion:reduce){
+  .lfed-lateral{transition:none}
+}
+
+@media (max-width:680px){
+  .lfed-titulo-campo{font-size:21px}
+  .lfed-conteudo{font-size:17px;padding:16px}
+  .lfed-barra-mob__nome{display:none}
+}
+
+
+@media (max-width:420px){
+  .lfed-linha-item{grid-template-columns:minmax(0,1fr);gap:8px}
+  .lfed-barra-salvar{flex-direction:column;align-items:stretch}
+  .lfed-barra-salvar .lfed-btn{width:100%}
+  .lfed-barra-salvar__estado{margin:0 0 4px;text-align:center}
+}

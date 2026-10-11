@@ -1,0 +1,584 @@
+/* ==========================================================
+   Portal Lícia Fábio — folha de estilo principal
+   ==========================================================
+
+   FONTES
+   ------
+   Nenhuma chamada externa. Os arquivos oficiais de Playfair Display, Archivo
+   e Newsreader não acompanham este pacote: não foram baixados nem trocados
+   por fontes parecidas. Até que sejam fornecidos, valem as pilhas do sistema
+   declaradas em :root, que não custam nenhuma requisição.
+
+   Para instalar as fontes reais:
+
+     1. Coloque os .woff2 em assets/fonts/ com estes nomes:
+
+        archivo-400.woff2            corpo, rótulos, navegação
+        archivo-700.woff2            títulos de seção, botões
+        archivo-800.woff2            etiquetas de editoria, kickers
+        playfair-display-700.woff2   manchetes
+        playfair-display-800.woff2   manchete principal e títulos grandes
+        newsreader-400.woff2         texto de leitura da matéria
+        newsreader-400-italic.woff2  citações
+
+        São sete arquivos — só os pesos que o layout realmente usa.
+
+     2. Descomente o bloco @font-face abaixo.
+     3. Troque as três variáveis de :root pelas versões comentadas ao lado.
+     4. Em functions.php, ligue o preload de archivo-400.woff2 e de
+        playfair-display-800.woff2: são as duas únicas usadas acima da dobra.
+        Nenhuma outra deve receber preload.
+
+   ========================================================== */
+
+/*
+@font-face{font-family:'Archivo';src:url('../fonts/archivo-400.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Archivo';src:url('../fonts/archivo-700.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'Archivo';src:url('../fonts/archivo-800.woff2') format('woff2');font-weight:800;font-style:normal;font-display:swap}
+@font-face{font-family:'Playfair Display';src:url('../fonts/playfair-display-700.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'Playfair Display';src:url('../fonts/playfair-display-800.woff2') format('woff2');font-weight:800;font-style:normal;font-display:swap}
+@font-face{font-family:'Newsreader';src:url('../fonts/newsreader-400.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Newsreader';src:url('../fonts/newsreader-400-italic.woff2') format('woff2');font-weight:400;font-style:italic;font-display:swap}
+*/
+
+:root{
+  --lf-vermelho:#D81818;
+  --lf-vermelho-escuro:#8c0f0f;
+  --lf-tinta:#141414;
+  --lf-texto:#525252;
+  --lf-apagado:#8B8A90;
+  --lf-claro:#FAF9F7;
+  --lf-bege:#F4F2EF;
+  --lf-linha:#E6E2DD;
+  --lf-linha-suave:#EFEBE6;
+  --lf-max:1280px;
+  /* Pilhas do sistema, sem requisição externa.
+     Com as fontes oficiais instaladas, use as três linhas comentadas: */
+  --lf-serif:Georgia,'Iowan Old Style','Times New Roman',Times,serif;
+  --lf-sans:system-ui,-apple-system,'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;
+  --lf-leitura:Georgia,'Iowan Old Style','Times New Roman',Times,serif;
+  /* --lf-serif:'Playfair Display',Georgia,serif; */
+  /* --lf-sans:'Archivo',system-ui,sans-serif; */
+  /* --lf-leitura:'Newsreader',Georgia,serif; */
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  background:var(--lf-claro);
+  color:var(--lf-tinta);
+  font-family:var(--lf-sans);
+  -webkit-font-smoothing:antialiased;
+}
+
+a{color:inherit;text-decoration:none}
+a:hover{color:var(--lf-vermelho)}
+img{max-width:100%;height:auto;display:block}
+::selection{background:var(--lf-vermelho);color:#fff}
+
+.lf-wrap{max-width:var(--lf-max);margin:0 auto;padding:0 32px}
+.lf-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- cabeçalho ---------- */
+.lf-header{background:#fff;border-bottom:1px solid var(--lf-linha)}
+
+.lf-topbar{background:var(--lf-bege);border-bottom:1px solid var(--lf-linha)}
+.lf-topbar__inner{height:38px;display:flex;align-items:center;justify-content:space-between}
+.lf-topbar__left,.lf-topbar__right{display:flex;align-items:center;gap:14px;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#6E6E6E}
+.lf-topbar__right{gap:18px;font-weight:700}
+.lf-topbar__sep{color:#CFCCC6}
+.lf-topbar__cta{color:var(--lf-vermelho)}
+.lf-topbar__social{display:flex;gap:12px;letter-spacing:0;color:var(--lf-texto)}
+
+.lf-brand{padding:28px 32px 22px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.lf-brand__logo img{height:76px;width:auto}
+.lf-brand__tagline{font-size:10px;font-weight:700;letter-spacing:.42em;text-transform:uppercase;color:#9A9994;padding-left:.42em;text-align:center}
+
+.lf-nav{border-top:1px solid var(--lf-linha)}
+.lf-nav__inner{display:flex;align-items:center;justify-content:center;height:52px}
+.lf-nav ul{list-style:none;display:flex;margin:0;padding:0}
+.lf-nav a{font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:0 10px;line-height:52px;white-space:nowrap}
+.lf-nav .current-menu-item > a,.lf-nav .current-cat > a{color:var(--lf-vermelho)}
+.lf-nav__search{display:flex;align-items:center;justify-content:center;width:34px;height:34px;margin-left:10px;border:1px solid #DAD6D0;border-radius:50%;color:var(--lf-texto)}
+.lf-nav__search:hover{background:var(--lf-vermelho);border-color:var(--lf-vermelho);color:#fff}
+
+/* ---------- barra e menu mobile ---------- */
+/* Contêiner da barra mobile: filho direto do <body>, sticky só abaixo de 900px.
+   No desktop não existe na tela, e o cabeçalho do desktop não muda. */
+.lf-mobhead{display:none}
+.lf-mobbar{display:none;align-items:center;justify-content:space-between;gap:12px;padding:11px 16px;border-bottom:1px solid var(--lf-linha);background:#fff}
+.lf-mobbar__burger{display:flex;flex-direction:column;justify-content:center;gap:5px;width:44px;height:44px;padding:0 10px;background:transparent;border:0;cursor:pointer}
+.lf-mobbar__burger span{display:block;height:2px;background:var(--lf-tinta);border-radius:2px;transition:transform .2s ease,opacity .2s ease}
+.lf-mobbar__burger[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.lf-mobbar__burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.lf-mobbar__burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.lf-mobbar__logo img{height:40px;width:auto}
+.lf-mobbar__search{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid #DAD6D0;border-radius:50%;color:var(--lf-texto)}
+
+.lf-mobmenu{display:none;background:#fff;border-bottom:1px solid var(--lf-linha);padding:8px 16px 18px}
+.lf-mobmenu.is-open{display:block}
+.lf-mobmenu__label{font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#B0AEA8;padding:10px 4px 8px}
+.lf-mobmenu ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.lf-mobmenu a{font-size:16px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;padding:15px 4px;border-top:1px solid var(--lf-linha-suave);display:block}
+.lf-mobmenu__social{display:flex;gap:16px;padding:18px 4px 0;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--lf-texto)}
+.lf-mobmenu__form{padding:14px 0 4px}
+
+/* ---------- plantão ---------- */
+.lf-plantao{background:var(--lf-vermelho);color:#fff}
+.lf-plantao__inner{height:44px;display:flex;align-items:center;gap:18px;overflow:hidden}
+.lf-plantao__tag{font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;background:var(--lf-tinta);padding:5px 11px;border-radius:3px;white-space:nowrap}
+.lf-plantao__list{font-family:var(--lf-leitura);font-size:15px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lf-plantao__list a{color:#fff}
+
+/* ---------- publicidade ---------- */
+.lf-ad{margin:30px 0 4px;text-align:center}
+.lf-ad__label{font-size:9px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:#B0AEA8;margin-bottom:10px}
+.lf-ad__box{border:1px solid var(--lf-linha);background:var(--lf-bege);border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;overflow:hidden}
+.lf-ad--billboard .lf-ad__box{min-height:130px}
+.lf-ad--halfpage .lf-ad__box{min-height:320px}
+.lf-ad--retangulo .lf-ad__box{min-height:250px}
+.lf-ad--intexto{margin:34px 0}
+.lf-ad--intexto .lf-ad__box{min-height:120px}
+.lf-ad__vazio{font-family:var(--lf-serif);font-style:italic;font-size:19px;color:#9A9994}
+.lf-ad__formato{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#B0AEA8}
+
+/* ---------- seções ---------- */
+/* Longhands: estas classes dividem o elemento com .lf-wrap; o atalho
+   "padding" zerava as laterais entre 681 e ~1340px. */
+.lf-sec{padding-top:26px;padding-bottom:8px}
+.lf-sec--pad{padding-top:44px;padding-bottom:28px}
+.lf-sec__head{display:flex;align-items:center;gap:16px;margin-bottom:22px}
+.lf-sec__title{font-family:var(--lf-sans);font-size:14px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;margin:0;white-space:nowrap}
+.lf-sec__rule{flex:1;height:2px;background:var(--lf-vermelho)}
+.lf-sec__link{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--lf-vermelho);white-space:nowrap}
+
+/* ---------- destaque da home ---------- */
+.lf-hero{display:grid;grid-template-columns:1.9fr 1fr;gap:32px}
+.lf-hero__main{position:relative;border-radius:8px;overflow:hidden;min-height:420px;background:#221c1c;display:block}
+.lf-hero__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.lf-hero__main:hover .lf-hero__img{transform:scale(1.05)}
+.lf-hero__veil{position:absolute;inset:0;background:linear-gradient(to top,rgba(12,10,10,.92) 12%,rgba(12,10,10,.4) 45%,transparent 70%)}
+.lf-hero__body{position:absolute;left:0;right:0;bottom:0;padding:40px;color:#fff}
+.lf-hero__cat{font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;background:var(--lf-vermelho);display:inline-block;padding:6px 12px;border-radius:3px;margin-bottom:16px}
+.lf-hero__title{font-family:var(--lf-serif);font-weight:800;font-size:52px;line-height:1.02;letter-spacing:-.01em;margin:0 0 14px;max-width:90%;color:#fff}
+.lf-hero__lede{font-family:var(--lf-leitura);font-size:19px;line-height:1.45;color:rgba(255,255,255,.85);margin:0 0 16px;max-width:80%}
+.lf-hero__meta{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.65)}
+.lf-hero__side{display:flex;flex-direction:column;gap:22px}
+.lf-hero__divider{height:1px;background:var(--lf-linha)}
+
+/* ---------- cards ---------- */
+.lf-card{display:flex;flex-direction:column;gap:12px}
+.lf-card__media{position:relative;border-radius:6px;overflow:hidden;aspect-ratio:16/10;background:#efe9e6}
+.lf-card__media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.lf-card:hover .lf-card__media img{transform:scale(1.05)}
+.lf-card:hover .lf-card__title{color:var(--lf-vermelho)}
+.lf-card__cat{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--lf-vermelho);margin-bottom:6px}
+.lf-card__title{font-family:var(--lf-serif);font-weight:700;font-size:24px;line-height:1.12;margin:0}
+.lf-card__meta{font-size:12px;color:var(--lf-apagado);letter-spacing:.04em;margin-top:6px}
+.lf-card--sm .lf-card__title{font-size:20px}
+.lf-card--sm .lf-card__media{aspect-ratio:4/3}
+
+.lf-card--row{flex-direction:row;gap:14px}
+.lf-card--row .lf-card__media{width:120px;flex-shrink:0;aspect-ratio:1}
+.lf-card--row .lf-card__title{font-size:20px;line-height:1.14}
+
+.lf-grid{display:grid;gap:24px}
+.lf-grid--2{grid-template-columns:1fr 1fr}
+.lf-grid--3{grid-template-columns:repeat(3,1fr)}
+.lf-grid--4{grid-template-columns:repeat(4,1fr)}
+
+/* ---------- mais lidas ---------- */
+.lf-lidas{list-style:none;margin:0;padding:0;counter-reset:lidas}
+.lf-lidas li{counter-increment:lidas;display:flex;gap:16px;padding:16px 0;border-top:1px solid var(--lf-linha)}
+.lf-lidas li:first-child{border-top:0;padding-top:0}
+.lf-lidas li::before{content:counter(lidas);font-family:var(--lf-serif);font-weight:800;font-size:30px;line-height:1;color:var(--lf-vermelho);flex-shrink:0;min-width:34px}
+.lf-lidas__title{font-family:var(--lf-serif);font-weight:700;font-size:18px;line-height:1.16;margin:0}
+
+/* ---------- agenda ---------- */
+.lf-agenda{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.lf-agenda__item{display:grid;grid-template-columns:64px 1fr;gap:16px;border:1px solid var(--lf-linha);border-radius:8px;padding:18px;background:#fff}
+.lf-agenda__data{text-align:center;border-right:1px solid var(--lf-linha);padding-right:14px}
+.lf-agenda__dia{font-family:var(--lf-serif);font-weight:800;font-size:28px;line-height:1;color:var(--lf-vermelho)}
+.lf-agenda__mes{font-size:10px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--lf-apagado);margin-top:4px}
+.lf-agenda__nome{font-family:var(--lf-serif);font-weight:700;font-size:18px;line-height:1.16;margin:0 0 5px}
+.lf-agenda__local{font-size:12px;color:var(--lf-apagado);letter-spacing:.03em}
+
+/* ---------- matéria ---------- */
+.lf-single{display:grid;grid-template-columns:1fr 340px;gap:56px;padding-top:32px;padding-bottom:70px}
+.lf-crumbs{font-size:12px;font-weight:600;letter-spacing:.04em;color:var(--lf-apagado);margin-bottom:18px}
+.lf-crumbs a{color:var(--lf-vermelho);font-weight:700}
+.lf-single__title{font-family:var(--lf-serif);font-weight:800;font-size:48px;line-height:1.05;letter-spacing:-.01em;margin:0 0 20px}
+.lf-single__sub{font-family:var(--lf-leitura);font-size:21px;line-height:1.5;color:var(--lf-texto);margin:0 0 28px}
+
+.lf-autor{display:flex;align-items:center;gap:14px;padding:18px 0;border-top:1px solid var(--lf-linha);border-bottom:1px solid var(--lf-linha);margin-bottom:32px}
+.lf-autor__foto{width:44px;height:44px;border-radius:50%;object-fit:cover;background:linear-gradient(135deg,var(--lf-vermelho),var(--lf-vermelho-escuro))}
+.lf-autor__nome{font-weight:700;font-size:14px}
+.lf-autor__data{font-size:12px;color:var(--lf-apagado);letter-spacing:.04em}
+
+.lf-figura{margin:0 0 10px}
+.lf-figura img{border-radius:8px;width:100%}
+.lf-figura figcaption{font-size:12px;color:var(--lf-apagado);margin-top:10px;line-height:1.45}
+.lf-figura__credito{font-weight:700;color:var(--lf-texto)}
+
+.lf-conteudo{font-family:var(--lf-leitura);font-size:19px;line-height:1.7;color:#242424;margin-top:28px}
+.lf-conteudo p{margin:0 0 22px}
+.lf-conteudo h2{font-family:var(--lf-serif);font-weight:700;font-size:28px;line-height:1.16;margin:36px 0 14px}
+.lf-conteudo h3{font-family:var(--lf-serif);font-weight:700;font-size:23px;line-height:1.2;margin:30px 0 12px}
+.lf-conteudo a{color:var(--lf-vermelho);text-decoration:underline}
+.lf-conteudo ul,.lf-conteudo ol{margin:0 0 22px;padding-left:24px}
+.lf-conteudo li{margin-bottom:9px}
+.lf-conteudo blockquote{margin:32px 0;padding:6px 0 6px 28px;border-left:4px solid var(--lf-vermelho);font-family:var(--lf-serif);font-style:italic;font-weight:600;font-size:26px;line-height:1.3;color:var(--lf-tinta)}
+.lf-conteudo img{border-radius:8px;margin:8px 0}
+.lf-conteudo figcaption{font-family:var(--lf-sans);font-size:12px;color:var(--lf-apagado);margin-top:8px}
+
+/* galeria */
+.lf-galeria{margin:40px 0}
+.lf-galeria__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.lf-galeria__grid img{aspect-ratio:1;object-fit:cover;border-radius:6px;width:100%}
+
+/* relacionadas */
+.lf-relacionadas{margin:48px 0 0;padding-top:34px;border-top:2px solid var(--lf-vermelho)}
+
+/* coluna lateral */
+.lf-sidebar{display:flex;flex-direction:column;gap:34px}
+.lf-widget__title{font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;margin:0 0 16px;padding-bottom:10px;border-bottom:1px solid var(--lf-linha)}
+
+/* ---------- listagens ---------- */
+/* Longhands: .lf-arch divide o elemento com .lf-wrap, e o atalho "padding"
+   zerava as laterais — conteúdo encostado na borda entre 681 e ~1340px. */
+.lf-arch{padding-top:36px;padding-bottom:70px}
+.lf-arch__head{padding-bottom:26px;border-bottom:2px solid var(--lf-vermelho);margin-bottom:34px}
+.lf-arch__kicker{font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--lf-vermelho);margin-bottom:12px}
+.lf-arch__title{font-family:var(--lf-serif);font-weight:800;font-size:46px;line-height:1.04;margin:0 0 12px}
+.lf-arch__desc{font-family:var(--lf-leitura);font-size:19px;line-height:1.5;color:var(--lf-texto);margin:0;max-width:44em}
+
+.lf-pag{display:flex;justify-content:center;gap:8px;margin-top:40px}
+.lf-pag .page-numbers{font-size:13px;font-weight:700;letter-spacing:.06em;padding:13px 19px;border:1.5px solid #DAD6D0;border-radius:8px;color:var(--lf-tinta)}
+.lf-pag .page-numbers:hover{border-color:var(--lf-vermelho);color:var(--lf-vermelho)}
+.lf-pag .page-numbers.current{background:var(--lf-vermelho);border-color:var(--lf-vermelho);color:#fff}
+
+/* busca */
+.lf-searchform{display:flex;gap:10px}
+.lf-searchform input[type="search"]{flex:1;font-family:var(--lf-sans);font-size:15px;padding:14px 16px;border:1.5px solid #DAD6D0;border-radius:8px;background:#fff;color:var(--lf-tinta);min-width:0}
+.lf-searchform input[type="search"]:focus{outline:2px solid var(--lf-vermelho);outline-offset:1px}
+.lf-searchform button{font-family:var(--lf-sans);font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;background:var(--lf-vermelho);color:#fff;border:0;padding:0 26px;border-radius:8px;cursor:pointer}
+.lf-searchform button:hover{background:var(--lf-vermelho-escuro)}
+
+/* vazio e 404 */
+.lf-vazio{padding:60px 0 80px;text-align:center;max-width:560px;margin:0 auto}
+.lf-vazio__title{font-family:var(--lf-serif);font-weight:800;font-size:38px;line-height:1.08;margin:0 0 14px}
+.lf-vazio__text{font-family:var(--lf-leitura);font-size:19px;line-height:1.5;color:var(--lf-texto);margin:0 0 28px}
+.lf-vazio__cats{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:28px}
+.lf-vazio__cats a{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border:1.5px solid #DAD6D0;border-radius:999px;padding:11px 20px}
+.lf-vazio__cats a:hover{border-color:var(--lf-vermelho);color:var(--lf-vermelho)}
+
+/* newsletter */
+.lf-news{background:var(--lf-vermelho);border-radius:12px;padding:44px 48px;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;color:#fff;margin:56px 0 64px}
+.lf-news__title{font-family:var(--lf-serif);font-weight:800;font-size:30px;line-height:1.05;margin:0 0 8px}
+.lf-news__text{font-family:var(--lf-leitura);font-size:16px;color:rgba(255,255,255,.9);margin:0}
+.lf-news__form{display:flex;gap:10px;flex:1;min-width:280px}
+.lf-news__form input{flex:1;font-family:var(--lf-sans);font-size:15px;padding:15px 18px;border-radius:8px;border:0;background:#fff;color:var(--lf-tinta);min-width:0}
+.lf-news__form button{font-family:var(--lf-sans);font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;background:var(--lf-tinta);color:#fff;border:0;padding:0 26px;border-radius:8px;cursor:pointer}
+
+/* ---------- rodapé ---------- */
+.lf-footer{background:var(--lf-bege);border-top:3px solid var(--lf-vermelho);color:var(--lf-tinta);margin-top:20px}
+.lf-footer__cols{padding:56px 32px 40px;display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:44px}
+.lf-footer__title{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--lf-vermelho);margin:0 0 18px}
+.lf-footer__list{display:flex;flex-direction:column;gap:11px;font-size:14px;color:var(--lf-texto)}
+.lf-footer__social{display:flex;gap:10px;margin-top:18px}
+.lf-footer__social a{width:40px;height:40px;border:1px solid #DAD6D0;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--lf-texto)}
+.lf-footer__social a:hover{background:var(--lf-vermelho);border-color:var(--lf-vermelho);color:#fff}
+.lf-footer__brand{height:62px;width:auto;display:block;margin-bottom:16px}
+/* Nome em texto, usado só no mobile, onde o logotipo do rodapé sai para não
+   repetir a marca do cabeçalho. */
+.lf-footer__brand-txt{display:none}
+.lf-footer__legal{border-top:1px solid var(--lf-linha)}
+.lf-footer__legal .lf-wrap{padding:22px 32px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:12px;letter-spacing:.04em;color:var(--lf-apagado)}
+.lf-footer__legal a{color:var(--lf-apagado);text-decoration:underline}
+.lf-footer__legal a:hover{color:var(--lf-vermelho)}
+/* Crédito da agência: discreto, legível, e a última linha do rodapé. */
+.lf-footer__credito{border-top:1px solid var(--lf-linha)}
+.lf-footer__credito .lf-wrap{padding:16px 32px;font-size:11.5px;letter-spacing:.06em;color:#9A9994;text-align:center}
+.lf-footer__credito a{color:#9A9994;text-decoration:underline}
+.lf-footer__credito a:hover{color:var(--lf-vermelho)}
+
+/* ==========================================================
+   Responsivo
+   ========================================================== */
+
+@media (max-width:1180px){
+  .lf-single{grid-template-columns:1fr;gap:40px}
+  .lf-hero{grid-template-columns:1fr}
+  .lf-grid--4{grid-template-columns:1fr 1fr}
+  .lf-hero__title{font-size:40px}
+  .lf-single__title{font-size:38px}
+  .lf-arch__title{font-size:38px}
+}
+
+@media (max-width:1060px){
+  .lf-nav ul{flex-wrap:wrap;justify-content:center}
+  .lf-nav__inner{height:auto;padding:6px 0}
+  .lf-nav a{line-height:38px}
+}
+
+@media (max-width:900px){
+  .lf-mobhead{display:block;position:-webkit-sticky;position:sticky;top:0;z-index:100;background:#fff}
+  /* Barra de administração do WordPress: fixa de 601px a 782px (46px) e acima
+     (32px); rola com a página abaixo de 601px. */
+  .admin-bar .lf-mobhead{top:32px}
+  /* O menu aberto rola por dentro em vez de passar da tela. */
+  .lf-mobmenu.is-open{max-height:calc(100vh - 67px);max-height:calc(100dvh - 67px);overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+  .lf-mobbar{display:flex}
+  .lf-topbar{display:none}
+  .lf-nav{display:none}
+  .lf-brand{padding:18px 20px 16px}
+  .lf-brand__logo img{height:56px}
+  .lf-brand__tagline{font-size:9px}
+  .lf-grid--3,.lf-agenda{grid-template-columns:1fr 1fr}
+  .lf-galeria__grid{grid-template-columns:1fr 1fr}
+  .lf-news{padding:32px 26px}
+  .lf-footer__cols{grid-template-columns:1fr 1fr;gap:32px;padding:40px 24px 30px}
+}
+
+@media (max-width:782px){
+  .admin-bar .lf-mobhead{top:46px}
+}
+
+@media (max-width:600px){
+  .admin-bar .lf-mobhead{top:0}
+}
+
+@media (max-width:680px){
+  /*
+   * ESPAÇAMENTO NO CELULAR.
+   *
+   * A causa das seções coladas era a regra ".lf-wrap{padding:0 18px}". As
+   * seções usam class="lf-wrap lf-sec lf-sec--pad"; como aquela regra vinha
+   * depois, com a mesma especificidade, o atalho "padding" zerava o espaço
+   * vertical de todas elas — e também o das listagens e da matéria.
+   *
+   * Agora só as laterais são definidas aqui, e o espaço vertical de cada
+   * bloco é declarado uma única vez neste breakpoint. Tablet e desktop não
+   * mudam.
+   */
+  /* Só longhands: um atalho "padding" aqui zeraria de novo as laterais,
+     porque estes blocos dividem o elemento com .lf-wrap. */
+  .lf-wrap{padding-left:18px;padding-right:18px}
+  .lf-sec{padding-top:32px;padding-bottom:4px}
+  .lf-sec--pad{padding-top:44px;padding-bottom:4px}
+  .lf-sec__head{margin-bottom:26px}
+  .lf-hero__side{gap:24px}
+  .lf-home-cols{gap:44px}
+  .lf-arch{padding-top:28px;padding-bottom:48px}
+  .lf-arch__head{margin-bottom:28px}
+  .lf-single{padding-top:24px;padding-bottom:48px;gap:44px}
+  .lf-relacionadas{margin-top:44px;padding-top:28px}
+  .lf-grid--2,.lf-grid--3,.lf-grid--4,.lf-agenda{grid-template-columns:1fr}
+  .lf-hero__body{padding:22px}
+  .lf-hero__main{min-height:300px}
+  .lf-hero__title{font-size:30px;max-width:100%}
+  .lf-hero__lede{font-size:17px;max-width:100%}
+  .lf-single__title{font-size:30px}
+  .lf-single__sub{font-size:18px}
+  .lf-conteudo{font-size:18px}
+  .lf-conteudo blockquote{font-size:21px;padding-left:20px}
+  .lf-arch__title{font-size:30px}
+  .lf-vazio__title{font-size:28px}
+  .lf-card__title{font-size:21px}
+  .lf-news{flex-direction:column;align-items:stretch;padding:26px 22px}
+  .lf-news__form{min-width:0}
+  .lf-footer__cols{grid-template-columns:1fr}
+  /* A marca aparece UMA vez no mobile: fica a do cabeçalho, sai a do rodapé,
+     e o nome do portal entra em texto para a coluna não ficar órfã. O resto do
+     rodapé — editorias, institucional, busca, redes, texto legal e o crédito
+     da agência — continua visível. */
+  .lf-footer__brand{display:none}
+  .lf-footer__brand-txt{display:block;font-family:var(--lf-serif);font-size:22px;font-weight:700;color:var(--lf-tinta);margin:0 0 12px}
+  .lf-footer__legal .lf-wrap{flex-direction:column;align-items:flex-start;padding:20px 18px}
+  .lf-footer__credito .lf-wrap{padding:14px 18px;text-align:left}
+  .lf-plantao__inner{gap:12px}
+  .lf-plantao__list{font-size:14px}
+}
+
+
+/* ==========================================================
+   Publicidade (renderizada pelo plugin licia-fabio-core)
+   ========================================================== */
+
+/* Um único <picture>: o navegador escolhe e baixa apenas um recurso.
+   width/height vêm do anexo e reservam o espaço, evitando CLS. */
+.lf-ad__media{display:block}
+.lf-ad__link{display:block}
+.lf-ad__img{display:block;margin:0 auto;border-radius:8px;max-width:100%;height:auto}
+/* O placeholder administrativo não é mais renderizado: o tema decide no
+   servidor e não chega a chamar o plugin quando a posição está vazia. Esta
+   regra é cinto de segurança para o caso de algum caminho ainda imprimi-lo —
+   o alvo é APENAS a variante vazia, nunca um anúncio ativo. */
+.lf-ad--vazio{display:none !important}
+
+/* Trilha publicitária lateral da home.
+   Só existe no DOM quando há algo para exibir — ver front-page.php. */
+.lf-home-cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) 300px;gap:32px;align-items:start}
+.lf-home-rail{display:flex;flex-direction:column;gap:24px;min-width:0}
+@media (max-width:1180px){
+  .lf-home-cols{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .lf-home-rail{grid-column:1 / -1;flex-direction:row;flex-wrap:wrap;justify-content:center}
+  .lf-home-rail > *{flex:0 1 300px}
+}
+@media (max-width:680px){
+  .lf-home-cols{grid-template-columns:minmax(0,1fr)}
+  .lf-home-rail{flex-direction:column}
+  .lf-home-rail > *{flex:1 1 auto}
+}
+
+/* Ficha do evento, na página individual do lf_evento. */
+.lf-evento__ficha{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:20px;border:1px solid var(--lf-linha,#E4E2DC);border-radius:12px;padding:22px 24px;margin:0 0 28px}
+.lf-evento__dados{display:flex;flex-wrap:wrap;gap:20px 40px;margin:0;min-width:0}
+.lf-evento__linha{min-width:0}
+.lf-evento__linha dt{font-family:var(--lf-sans);font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--lf-cinza,#6C7285);margin:0 0 4px}
+.lf-evento__linha dd{font-family:var(--lf-sans);font-size:16px;font-weight:600;color:var(--lf-tinta,#14265C);margin:0}
+.lf-evento__cta{display:inline-block;font-family:var(--lf-sans);font-size:14px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;background:var(--lf-vermelho,#D81818);color:#fff;padding:14px 26px;border-radius:6px;min-height:44px;line-height:1.2}
+.lf-evento__cta:hover{background:#B31414;color:#fff}
+.lf-evento__passado{font-family:var(--lf-sans);font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--lf-cinza,#6C7285);margin:0 0 16px}
+.lf-agenda__lista{display:flex;flex-direction:column;gap:14px}
+@media (max-width:680px){
+  .lf-evento__ficha{flex-direction:column;align-items:stretch}
+  .lf-evento__cta{text-align:center}
+}
+
+.lf-nav__aviso{font-family:var(--lf-sans);font-size:12px;line-height:1.5;color:var(--lf-cinza,#6C7285);margin:0;padding:8px 0}
+
+/* ==========================================================
+   Galerias nativas do WordPress — shortcode [gallery]
+   O conteúdo salvo no banco não é alterado: apenas estilizado.
+   ========================================================== */
+
+.lf-conteudo .gallery{display:grid;gap:10px;margin:32px 0}
+.lf-conteudo .gallery-columns-1{grid-template-columns:1fr}
+.lf-conteudo .gallery-columns-2{grid-template-columns:repeat(2,1fr)}
+.lf-conteudo .gallery-columns-3{grid-template-columns:repeat(3,1fr)}
+.lf-conteudo .gallery-columns-4{grid-template-columns:repeat(4,1fr)}
+.lf-conteudo .gallery-columns-5,
+.lf-conteudo .gallery-columns-6,
+.lf-conteudo .gallery-columns-7,
+.lf-conteudo .gallery-columns-8,
+.lf-conteudo .gallery-columns-9{grid-template-columns:repeat(4,1fr)}
+
+.lf-conteudo .gallery-item{margin:0;width:auto !important;float:none !important;display:flex;flex-direction:column}
+.lf-conteudo .gallery-item img{border:0 !important;border-radius:6px;width:100%;height:auto;display:block}
+.lf-conteudo .gallery-columns-1 .gallery-item img{border-radius:8px}
+.lf-conteudo .gallery-icon{margin:0}
+.lf-conteudo .gallery-icon a{display:block;border-radius:6px;overflow:hidden}
+.lf-conteudo .gallery-icon a:focus-visible{outline:3px solid var(--lf-vermelho);outline-offset:3px}
+.lf-conteudo .gallery-caption{font-family:var(--lf-sans);font-size:12px;line-height:1.45;color:var(--lf-apagado);margin:8px 0 0;text-align:left}
+
+@media (max-width:900px){
+  .lf-conteudo .gallery-columns-3,
+  .lf-conteudo .gallery-columns-4,
+  .lf-conteudo .gallery-columns-5,
+  .lf-conteudo .gallery-columns-6,
+  .lf-conteudo .gallery-columns-7,
+  .lf-conteudo .gallery-columns-8,
+  .lf-conteudo .gallery-columns-9{grid-template-columns:repeat(2,1fr)}
+}
+
+@media (max-width:520px){
+  .lf-conteudo .gallery{grid-template-columns:1fr !important}
+}
+
+/* ---------- visualização ampliada ---------- */
+.lf-lightbox{position:fixed;inset:0;z-index:9999;display:none;background:rgba(14,12,12,.94);padding:24px}
+.lf-lightbox.is-open{display:flex;align-items:center;justify-content:center}
+.lf-lightbox__fig{margin:0;max-width:min(1200px,100%);max-height:100%;display:flex;flex-direction:column;gap:14px;align-items:center}
+.lf-lightbox__img{max-width:100%;max-height:78vh;width:auto;height:auto;border-radius:6px;display:block}
+.lf-lightbox__cap{font-family:var(--lf-sans);font-size:13px;line-height:1.5;color:rgba(255,255,255,.82);text-align:center;max-width:70ch}
+.lf-lightbox__count{font-family:var(--lf-sans);font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.5)}
+.lf-lightbox__btn{position:absolute;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.28);color:#fff;width:52px;height:52px;border-radius:50%;cursor:pointer;font-size:22px;line-height:1;display:flex;align-items:center;justify-content:center}
+.lf-lightbox__btn:hover{background:var(--lf-vermelho);border-color:var(--lf-vermelho)}
+.lf-lightbox__btn:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.lf-lightbox__btn--prev{left:18px;top:50%;transform:translateY(-50%)}
+.lf-lightbox__btn--next{right:18px;top:50%;transform:translateY(-50%)}
+.lf-lightbox__btn--close{right:18px;top:18px}
+
+@media (max-width:680px){
+  .lf-lightbox{padding:12px}
+  .lf-lightbox__btn{width:44px;height:44px}
+  .lf-lightbox__btn--prev{left:8px}
+  .lf-lightbox__btn--next{right:8px}
+  .lf-lightbox__img{max-height:66vh}
+}
+
+/* ---------- conteúdo clássico do acervo ---------- */
+.lf-conteudo iframe,.lf-conteudo video,.lf-conteudo embed,.lf-conteudo object{max-width:100%}
+.lf-conteudo .wp-caption{max-width:100%;margin:8px 0 22px}
+.lf-conteudo .wp-caption img{width:100%;height:auto}
+.lf-conteudo .wp-caption-text{font-family:var(--lf-sans);font-size:12px;color:var(--lf-apagado);margin-top:8px}
+.lf-conteudo .alignleft{float:left;margin:6px 24px 16px 0;max-width:50%}
+.lf-conteudo .alignright{float:right;margin:6px 0 16px 24px;max-width:50%}
+.lf-conteudo .aligncenter{margin-left:auto;margin-right:auto;display:block}
+.lf-conteudo table{width:100%;border-collapse:collapse;margin:0 0 22px;font-family:var(--lf-sans);font-size:15px}
+.lf-conteudo th,.lf-conteudo td{border:1px solid var(--lf-linha);padding:10px 12px;text-align:left}
+
+@media (max-width:680px){
+  .lf-conteudo .alignleft,.lf-conteudo .alignright{float:none;margin:8px 0 18px;max-width:100%}
+}
+
+/* ---------- aviso de plugin ausente ---------- */
+.lf-core-missing{background:#FDF0D9;border-bottom:1px solid #EBD9A8;padding:12px 20px;text-align:center;font-family:var(--lf-sans);font-size:13.5px;font-weight:600;color:#6B4E10}
+
+/* ---------- selo de conteúdo de marca ---------- */
+.lf-branded{font-family:var(--lf-sans);font-size:10px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#6B4E10;background:#FDF0D9;border:1px solid #EBD9A8;padding:4px 9px;border-radius:3px;display:inline-block;margin-bottom:8px}
+
+/* ---------- visualizações ---------- */
+.lf-views{font-family:var(--lf-sans);font-size:12px;color:var(--lf-apagado);letter-spacing:.04em}
+
+
+/* ---------- newsletter desativada (sem provedor definido) ---------- */
+.lf-news{flex-wrap:wrap}
+.lf-news__form input[disabled],
+.lf-news__form button[disabled]{opacity:.62;cursor:not-allowed}
+
+/* ---------- crédito de fotografia ---------- */
+.lf-figura figcaption,
+.lf-conteudo .gallery-caption{text-wrap:pretty}
+
+
+/* ==========================================================
+   TV Lícia — página /tv-licia/ (page-tv-licia.php)
+   ========================================================== */
+.lf-tv__intro{max-width:44em;margin-bottom:28px}
+.lf-tv__grid{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:32px;align-items:start}
+.lf-tv__player{min-width:0}
+.lf-tv__frame{position:relative;width:100%;aspect-ratio:16/9;background:#141414;border-radius:8px;overflow:hidden}
+.lf-tv__frame iframe,.lf-tv__poster{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+.lf-tv__poster img{width:100%;height:100%;object-fit:cover}
+.lf-tv__play{position:absolute;left:50%;top:50%;width:76px;height:76px;margin:-38px 0 0 -38px;border-radius:50%;background:var(--lf-vermelho);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(0,0,0,.35);transition:transform .2s ease}
+.lf-tv__poster:hover .lf-tv__play,.lf-tv__poster:focus-visible .lf-tv__play{transform:scale(1.08)}
+.lf-tv__poster:focus-visible{outline:3px solid var(--lf-vermelho);outline-offset:3px}
+.lf-tv__atual{font-family:var(--lf-serif);font-weight:700;font-size:26px;line-height:1.15;margin:18px 0 6px}
+.lf-tv__atual-dur{font-size:12px;font-weight:600;letter-spacing:.06em;color:var(--lf-apagado);margin:0}
+.lf-tv__lista-head{font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--lf-vermelho);margin:0 0 14px}
+.lf-tv__lista{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.lf-tv__item{display:grid;grid-template-columns:140px minmax(0,1fr);gap:14px;align-items:center;min-height:44px;padding:8px;border:1px solid transparent;border-radius:8px}
+.lf-tv__item:hover{background:var(--lf-bege)}
+.lf-tv__item[aria-current="true"]{background:#fff;border-color:var(--lf-vermelho);box-shadow:inset 3px 0 0 var(--lf-vermelho)}
+.lf-tv__item:focus-visible{outline:3px solid var(--lf-vermelho);outline-offset:2px}
+.lf-tv__thumb{position:relative;display:block;aspect-ratio:16/9;border-radius:5px;overflow:hidden;background:#efe9e6}
+.lf-tv__thumb img{width:100%;height:100%;object-fit:cover}
+.lf-tv__dur{position:absolute;right:6px;bottom:6px;background:rgba(20,20,20,.85);color:#fff;font-size:11px;font-weight:700;letter-spacing:.02em;padding:2px 6px;border-radius:3px}
+.lf-tv__item-titulo{font-family:var(--lf-serif);font-weight:700;font-size:16px;line-height:1.22;color:var(--lf-tinta)}
+.lf-tv__item[aria-current="true"] .lf-tv__item-titulo{color:var(--lf-vermelho)}
+.lf-tv__vazio{font-family:var(--lf-leitura);font-size:18px;color:var(--lf-texto)}
+@media (max-width:1060px){
+  .lf-tv__grid{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:680px){
+  .lf-tv__grid{gap:28px}
+  .lf-tv__atual{font-size:21px}
+  .lf-tv__play{width:60px;height:60px;margin:-30px 0 0 -30px}
+  .lf-tv__item{grid-template-columns:120px minmax(0,1fr);gap:12px}
+}
+@media (prefers-reduced-motion:reduce){
+  .lf-tv__play{transition:none}
+}
