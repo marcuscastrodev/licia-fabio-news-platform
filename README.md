@@ -4,9 +4,9 @@
 
 Developed as a modular publishing platform, this project brings together a reader-facing news portal, a dedicated newsroom interface, and a reusable content layer. Rather than placing business logic in the theme, the architecture keeps editorial data and workflows in WordPress plugins.
 
-**Live website:** [liciafabio.com.br](https://liciafabio.com.br/) · **Developer:** [Marcus Castro](https://github.com/marcuscastrodev)
+**Project website:** [liciafabio.com.br](https://liciafabio.com.br/) · **Developer:** [Marcus Castro](https://github.com/marcuscastrodev)
 
-> **Release note:** The source versions in this repository are labeled `staging` by their original authors. They are official project versions, but this repository does not claim that the exact commits have passed a full production deployment or security audit.
+> **Release note:** The source versions in this repository are labeled `staging` in their plugin/theme headers. They are official project versions, but this repository does not claim that the exact commits have passed a full production deployment or security audit.
 
 ## Interface previews
 
@@ -15,7 +15,7 @@ The project includes two complementary experiences:
 - **Public news portal:** branded homepage, navigation, featured stories, editorial sections and advertising placements.
 - **Editorial dashboard:** article search, status filtering, publishing information and content management actions.
 
-Screenshots provided by the developer will be added under `docs/screenshots/`.
+**Screenshots:** Authentic screenshots of both interfaces have been provided by the developer and will be embedded once the image files are committed to this repository. No stock or generated UI imagery is used.
 
 ## What I built
 
