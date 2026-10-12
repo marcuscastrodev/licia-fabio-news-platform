@@ -10,12 +10,11 @@ Developed as a modular publishing platform, this project brings together a reade
 
 ## Interface previews
 
-The project includes two complementary experiences:
+Authentic screenshots from the Lícia Fábio project, showing its public-facing news experience and editorial workspace.
 
-- **Public news portal:** branded homepage, navigation, featured stories, editorial sections and advertising placements.
-- **Editorial dashboard:** article search, status filtering, publishing information and content management actions.
+![Lícia Fábio interface screenshot 1](<Captura%20de%20Tela%202026-10-12%20a%CC%80s%2001.46.17.png>)
 
-**Screenshots:** Authentic screenshots of both interfaces have been provided by the developer and will be embedded once the image files are committed to this repository. No stock or generated UI imagery is used.
+![Lícia Fábio interface screenshot 2](<Captura%20de%20Tela%202026-10-12%20a%CC%80s%2001.46.50.png>)
 
 ## What I built
 
