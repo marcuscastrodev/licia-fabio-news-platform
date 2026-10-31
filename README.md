@@ -1,3 +1,9 @@
+<div align="center">
+
+**🇺🇸 English** · [🇧🇷 Português](./README.pt-BR.md) · [🇪🇸 Español](./README.es.md)
+
+</div>
+
 # Lícia Fábio | News Portal & Editorial Platform
 
 **A custom WordPress news experience and an integrated editorial workspace.**
