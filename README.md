@@ -8,13 +8,45 @@ Developed as a modular publishing platform, this project brings together a reade
 
 > **Release note:** The source versions in this repository are labeled `staging` in their plugin/theme headers. They are official project versions, but this repository does not claim that the exact commits have passed a full production deployment or security audit.
 
-## Interface previews
+## Interface gallery
 
-Authentic screenshots from the Lícia Fábio project, showing its public-facing news experience and editorial workspace.
+### Public news experience
 
-![Lícia Fábio interface screenshot 1](<Captura%20de%20Tela%202026-10-12%20a%CC%80s%2001.46.17.png>)
+**01 — Homepage.** A magazine-inspired front page featuring editorial categories, lead stories, news cards, and advertising placements.
 
-![Lícia Fábio interface screenshot 2](<Captura%20de%20Tela%202026-10-12%20a%CC%80s%2001.46.50.png>)
+![Lícia Fábio news portal homepage](screenshots/01-home-desktop.webp)
+
+**02 — Editorial sections.** Reusable article grids provide a consistent browsing experience across news categories.
+
+![Lícia Fábio editorial article grids](screenshots/02-editorial-sections.webp)
+
+**03 — Article page.** An editorial reading layout with author attribution, featured media, and complementary content.
+
+![Lícia Fábio article desktop layout](screenshots/03-article-desktop.webp)
+
+**04 — Responsive article.** Navigation, typography, and article media adapt to a narrow viewport.
+
+<img src="screenshots/04-article-mobile.webp" alt="Lícia Fábio article layout on mobile" width="360" />
+
+### Custom editorial workspace
+
+**05 — News management.** A dedicated listing supports article discovery, publication status, and newsroom operations.
+
+![Lícia Fábio editorial news management](screenshots/05-editorial-news.webp)
+
+**06 — Advertising management.** Editors can organize advertising records and inspect their publication status and placements.
+
+![Lícia Fábio advertising management](screenshots/06-ad-management.webp)
+
+**07 — Advertising editor.** A form-based workflow handles placement, assets, timing, and publication controls.
+
+![Lícia Fábio advertising editor](screenshots/07-ad-editor.webp)
+
+**08 — Article editor.** Structured fields, rich-text editing, categories, and featured media are available in the custom newsroom interface.
+
+![Lícia Fábio news article editor](screenshots/08-article-editor.webp)
+
+> Screenshots show the project's interface. The repository's source components remain identified as staging versions; screenshots do not constitute a security or production validation.
 
 ## What I built
 
